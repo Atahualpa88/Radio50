@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Radio 50 — Escuela 50</title>
+<meta name="description" content="Sitio oficial de Radio 50 (Escuela 50). En vivo por Zeno, grilla de programas, redes, galería de videos y contacto." />
+<style>
+  :root{
+    --bg:#0a0a0a; --panel:#111; --soft:#151515; --text:#f7f7f7; --muted:#bfbfbf;
+    --accent:#ffffff; --pill:#1e1e1e; --border:#1f1f1f;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;
+    background:radial-gradient(120% 120% at 10% 10%, #0d0d0d 0%, #0a0a0a 70%);
+    color:var(--text);
+  }
+  header{
+    position:sticky; top:0; z-index:20; backdrop-filter:blur(8px);
+    background:rgba(10,10,10,.65); border-bottom:1px solid var(--border);
+  }
+  .wrap{max-width:1100px; margin:0 auto; padding:0 16px}
+  .bar{display:flex; align-items:center; gap:14px; padding:12px 0;}
+  .logo{display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--text);}
+  .logo img{width:42px; height:42px; border-radius:10px; background:#000; object-fit:cover}
+  .brand{display:flex; flex-direction:column; line-height:1}
+  .brand b{letter-spacing:.5px}
+  nav{
+    margin-left:auto; display:flex; gap:12px; flex-wrap:wrap;
+  }
+  nav a{
+    color:var(--text); text-decoration:none; font-size:.95rem; padding:8px 10px;
+    border:1px solid var(--border); border-radius:999px; background:var(--pill);
+  }
+  main{padding:24px 0 48px}
+  .hero{
+    display:grid; grid-template-columns:1fr; gap:18px; align-items:center;
+    padding:28px; background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));
+    border:1px solid var(--border); border-radius:18px;
+  }
+  .hero h1{margin:0 0 6px; font-size:clamp(1.6rem, 2.2vw + 1rem, 2.2rem);}
+  .muted{color:var(--muted)}
+  .player{margin-top:14px; background:var(--soft); border:1px solid var(--border); border-radius:16px; padding:14px;}
+  .grid{display:grid; grid-template-columns:1fr; gap:16px; margin-top:22px;}
+  @media (min-width:900px){ .grid{ grid-template-columns:2fr 1fr; } }
+  .card{background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:18px;}
+  .card h2{margin:0 0 8px; font-size:1.1rem}
+  .list{display:grid; gap:10px}
+  .item{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:10px; border:1px dashed var(--border); border-radius:12px; background:#0c0c0c;}
+  .item .left{display:flex; align-items:center; gap:10px}
+  .prog-logo{width:28px; height:28px; border-radius:50%; border:1px solid var(--border); object-fit:cover; background:#000}
+  footer{border-top:1px solid var(--border); padding:20px 0; color:var(--muted)}
+  .btn{display:inline-flex; gap:8px; align-items:center; color:#000; background:#fff; border-radius:10px; padding:10px 14px; text-decoration:none; font-weight:600}
+  .btn.secondary{background:transparent; color:var(--text); border:1px solid var(--border)}
+
+  /* Galería de videos (9:16) */
+  .stage{position:relative; display:grid; place-items:center; background:#000; border-radius:14px; border:1px solid #000; overflow:hidden}
+  .stage::before{content:""; display:block; padding-top:177.78%;} /* 9:16 */
+  .stage > .abs{position:absolute; inset:0; display:grid; place-items:center; padding:10px}
+  video{width:auto; height:100%; max-height:100%; aspect-ratio:9/16; background:#000; border-radius:12px}
+  .title-row{display:flex; align-items:center; gap:10px; justify-content:space-between; margin-bottom:10px}
+  .title{font-weight:600}
+  .ctrls{display:flex; gap:8px}
+  button.ctrl{background:transparent; border:1px solid var(--border); color:var(--text);
+              padding:8px 12px; border-radius:10px; cursor:pointer}
+  button.ctrl:hover{border-color:#2a3342}
+  .dots{display:flex; gap:6px; justify-content:center; margin-top:10px}
+  .dots button{width:8px; height:8px; border-radius:999px; border:0; background:#5c6b80; cursor:pointer}
+  .dots button.active{background:#fff}
+  .hint{color:var(--muted); font-size:.9rem; margin-top:8px}
+  .grid-mini{display:grid; gap:8px; grid-template-columns:repeat(4,1fr); margin-top:10px}
+  .thumb{position:relative; border-radius:10px; overflow:hidden; border:1px solid var(--border); background:#0f1116; cursor:pointer}
+  .thumb::before{content:""; display:block; padding-top:177.78%;}
+  .thumb > span{position:absolute; left:6px; bottom:6px; right:6px; font-size:.8rem; color:#dbe4f3; text-shadow:0 1px 2px rgba(0,0,0,.6)}
+  @media (max-width:600px){ .grid-mini{grid-template-columns:repeat(3,1fr)} }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#top">
+      <img src="radio50-logo.jpg" alt="Radio 50 logo" onerror="this.style.display='none'">
+      <span class="brand">
+        <b>Radio 50</b>
+        <small class="muted">Escuela 50</small>
+      </span>
+    </a>
+    <nav>
+      <a href="#vivo">En vivo</a>
+      <a href="#programas">Programas</a>
+      <a href="#redes">Nuestras redes</a>
+      <a href="#videos">Algunas imágenes</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero" id="top">
+    <div>
+      <h1>Transmitiendo desde la Escuela 50</h1>
+      <p class="muted">Escuchá la radio en vivo, conocé nuestra grilla, seguinos en redes y mirá los videos de nuestros programas.</p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px">
+        <a class="btn" href="#vivo">▶️ Escuchar en vivo</a>
+        <a class="btn secondary" href="https://zeno.fm/radio/radio-50-spoo/" target="_blank" rel="noopener">Abrir en Zeno</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="grid">
+    <section class="card" id="vivo" aria-label="Reproductor en vivo">
+      <h2>🔴 En vivo</h2>
+      <p class="muted" style="margin-top:-2px">Si no se reproduce automáticamente, tocá el botón ▶️ en el reproductor.</p>
+      <div class="player">
+        <iframe
+          src="https://zeno.fm/player/radio-50-spoo/"
+          loading="lazy"
+          width="100%"
+          height="180"
+          frameborder="0"
+          scrolling="no"
+          allow="autoplay"
+          title="Reproductor Zeno Radio 50">
+        </iframe>
+      </div>
+    </section>
+
+    <aside class="card" id="redes">
+      <h2>🌐 Nuestras redes</h2>
+      <div class="list">
+        <div class="item">
+          <div class="left">
+            <img class="prog-logo" src="inviables-logo.jpg" alt="Logo Inviables">
+            <span>📸 <a href="https://www.instagram.com/inviables_radio_/?hl=es" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline">Instagram de Inviables</a></span>
+          </div>
+        </div>
+        <div class="item">
+          <div class="left">
+            <img class="prog-logo" src="tema-logo.jpg" alt="Logo Es todo un tema">
+            <span>📸 <a href="https://www.instagram.com/eestodountema_/?hl=es" target="_blank" rel="noopener" style="color:#fff;text-decoration:underline">Instagram de Es todo un tema</a></span>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <section class="card" id="programas" style="margin-top:16px">
+    <h2>📅 Programas</h2>
+    <div class="list">
+      <div class="item">
+        <div class="left">
+          <img class="prog-logo" src="inviables-logo.jpg" alt="Logo Inviables">
+          <span>Inviables</span>
+        </div>
+        <small class="muted">16:00 - 17:00</small>
+      </div>
+      <div class="item">
+        <div class="left">
+          <img class="prog-logo" src="tema-logo.jpg" alt="Logo Es todo un tema">
+          <span>Es todo un tema</span>
+        </div>
+        <small class="muted">17:00 - 18:00</small>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" id="videos" style="margin-top:16px">
+    <h2>🖼️ Algunas imágenes</h2>
+
+    <div class="title-row">
+      <div class="title" id="clipTitle">Cargando…</div>
+      <div class="ctrls">
+        <button class="ctrl" id="prev" title="Anterior">⟨</button>
+        <button class="ctrl" id="next" title="Siguiente">⟩</button>
+      </div>
+    </div>
+
+    <div class="stage" id="stage">
+      <div class="abs">
+        <video id="player" controls playsinline webkit-playsinline preload="metadata"></video>
+      </div>
+    </div>
+
+    <div class="dots" id="dots"></div>
+    <div class="hint">Deslizá (swipe) izquierda/derecha, usá las flechas del teclado o tocá los puntos para cambiar.</div>
+    <div class="grid-mini" id="thumbs"></div>
+  </section>
+
+  <section class="card" id="contacto" style="margin-top:16px">
+    <h2>✉️ Contacto</h2>
+    <p class="muted">¿Querés saludarnos, mandar un audio o auspiciar? Escribinos:</p>
+    <form action="mailto:estodountema9@gmail.com" method="post" enctype="text/plain">
+      <div style="display:grid; gap:10px; grid-template-columns:1fr 1fr">
+        <input required placeholder="Nombre" name="nombre" style="padding:10px;border-radius:10px;border:1px solid var(--border);background:#0c0c0c;color:#fff">
+        <input type="email" required placeholder="Email" name="email" style="padding:10px;border-radius:10px;border:1px solid var(--border);background:#0c0c0c;color:#fff">
+      </div>
+      <textarea required placeholder="Tu mensaje" name="mensaje" rows="4" style="margin-top:10px;width:100%;padding:10px;border-radius:10px;border:1px solid var(--border);background:#0c0c0c;color:#fff"></textarea>
+      <div style="margin-top:10px"><button class="btn" type="submit">Enviar</button></div>
+    </form>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px">
+    <span>© 2025 Radio 50 — Escuela 50</span>
+    <span class="muted">Hecho con ❤️ por estudiantes y docentes</span>
+  </div>
+</footer>
+
+<script>
+/* =============================
+   Carga de videos (misma carpeta que index.html)
+   - 1) Si existe manifest.json en esta carpeta lo usa (lista con títulos).
+   - 2) Si NO existe, carga SIEMPRE 6 videos: video1.mp4..video6.mp4
+   ============================= */
+const BASE = "./";   // mismo directorio
+let clips = [];
+
+async function loadClips(){
+  // 1) manifest.json (opcional)
+  try {
+    const r = await fetch(BASE + "manifest.json", {cache:"no-store"});
+    if(!r.ok) throw new Error("no manifest");
+    const arr = await r.json();
+    if(!Array.isArray(arr) || !arr.length) throw new Error("manifest vacío");
+    clips = arr.map(it => ({ file:String(it.file), title:it.title||it.file, poster:it.poster||null }));
+    return;
+  } catch (e) {
+    // 2) Fijo: 6 videos (video1..video6) en la misma carpeta
+    clips = Array.from({length:6}, (_,i)=>({ file: `video${i+1}.mp4`, title: `Video ${i+1}` }));
+  }
+}
+
+const player = document.getElementById("player");
+const titleEl = document.getElementById("clipTitle");
+const dotsEl = document.getElementById("dots");
+const thumbsEl = document.getElementById("thumbs");
+const stage = document.getElementById("stage");
+let idx = 0;
+
+function setSrc(i, autoplay=false){
+  if(!clips.length) return;
+  idx = (i + clips.length) % clips.length;
+  const c = clips[idx];
+  titleEl.textContent = c.title || c.file;
+  const src = BASE + c.file;
+  player.pause();
+  player.src = src;
+  if(c.poster) player.setAttribute("poster", BASE + c.poster); else player.removeAttribute("poster");
+  player.load();
+  if(autoplay) player.play().catch(()=>{});
+  updateDots();
+  highlightThumb();
+  // Preload próximo
+  const next = clips[(idx+1)%clips.length];
+  if(next) { const v = document.createElement("video"); v.src = BASE + next.file; v.preload = "metadata"; }
+}
+
+function buildDots(){
+  dotsEl.innerHTML = "";
+  clips.forEach((_,i)=>{
+    const b = document.createElement("button");
+    b.addEventListener("click", ()=> setSrc(i, true));
+    dotsEl.appendChild(b);
+  });
+}
+function updateDots(){
+  Array.from(dotsEl.children).forEach((b,i)=> b.classList.toggle("active", i===idx));
+}
+
+function buildThumbs(){
+  thumbsEl.innerHTML = "";
+  clips.forEach((c,i)=>{
+    const t = document.createElement("div");
+    t.className = "thumb";
+    t.innerHTML = `<span>${c.title||c.file}</span>`;
+    t.addEventListener("click", ()=> setSrc(i, true));
+    thumbsEl.appendChild(t);
+  });
+}
+function highlightThumb(){
+  Array.from(thumbsEl.children).forEach((el,i)=> el.style.outline = i===idx ? "2px solid #fff" : "none");
+}
+
+function next(){ setSrc(idx+1, true); }
+function prev(){ setSrc(idx-1, true); }
+document.getElementById("next").addEventListener("click", next);
+document.getElementById("prev").addEventListener("click", prev);
+
+// Teclado
+addEventListener("keydown", (e)=>{ if(e.key==="ArrowRight") next(); else if(e.key==="ArrowLeft") prev(); });
+
+// Swipe
+let startX=null;
+stage.addEventListener("touchstart", e=> startX = e.changedTouches[0].clientX, {passive:true});
+stage.addEventListener("touchend", e=>{ if(startX==null) return; const dx=e.changedTouches[0].clientX-startX; if(Math.abs(dx)>40) (dx>0?prev():next()); startX=null; }, {passive:true});
+
+(async function init(){
+  await loadClips();
+  if(!clips.length) { titleEl.textContent = "No hay videos. Subí tus .mp4 junto a este index.html o creá manifest.json"; return; }
+  buildDots();
+  buildThumbs();
+  setSrc(0, false);
+})();
+</script>
+</body>
+</html>
